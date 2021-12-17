@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
         print_2d(board);
         winner = check_winner(board);
     }
-    if(winner != "") cout<<winner<<" Won!";
+    if(winner != "") cout<<winner<<" won!";
     else cout<<"It's a tie!";
     return 0;
 }
