@@ -65,5 +65,6 @@ int main(int argc, char const *argv[])
     }
     if(winner != "") cout<<winner<<" won!";
     else cout<<"It's a tie!";
+    cin.get();
     return 0;
 }
