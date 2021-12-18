@@ -1,5 +1,16 @@
 import turtle
 
+BOARD_WITH_NUMBERS = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+board = [
+    ['.', '.', '.'],
+    ['.', '.', '.'],
+    ['.', '.', '.']
+]
+
 wn = turtle.Screen()
 wn.title("Tic Tac Toe")
 wn.bgcolor("black")
