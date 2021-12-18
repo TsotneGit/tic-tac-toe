@@ -1,4 +1,5 @@
 import turtle
+from tic_tac_toe_game import *
 
 BOARD_WITH_NUMBERS = [
     [1, 2, 3],
@@ -11,14 +12,17 @@ board = [
     ['.', '.', '.']
 ]
 
+turn = "X"
+count = 0
+SPLITS = 166
+SPLITS2 = 166//2
+winner = ""
+
 wn = turtle.Screen()
 wn.title("Tic Tac Toe")
 wn.bgcolor("black")
 wn.setup(500, 500)
 wn.tracer(0)
-turn = "O"
-SPLITS = 166
-SPLITS2 = 166//2
 
 for i in range(-84, 83, 166):
     line = turtle.Turtle()
@@ -68,6 +72,8 @@ def get_id(x, y):
             return 9
 
 def draw_o(x, y):
+    global turn
+    # Draw O
     id_ = get_id(x,y)
     t = turtle.Turtle()
     t.hideturtle()
@@ -77,10 +83,31 @@ def draw_o(x, y):
     t.goto(-250+(((id_-1)%3+1)*2-1)*SPLITS2, 250-((id_-1)//3+1)*SPLITS+26)
     t.pendown()
     t.circle(60)
+    
+    # Update playingboard matrix
+    make_move(board, id_, turn)
+
+    turn = "X"
 
 def draw_x(x, y):
-    pass
+    global turn
+    id_ = get_id(x,y)
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.goto(-250+(((id_-1)%3+1)*2-1)*SPLITS2, 250-((id_-1)//3+1)*SPLITS+SPLITS2)
+    t.color("red")
+    t.penup()
+    t.width(10)
+    t.pendown()
+    for angle in range(-135, 136, 90):
+        mock = t.clone()
+        mock.left(angle)
+        mock.forward(SPLITS2)
     
+    # Update playingboard matrix
+    make_move(board, id_, turn)
+    
+    turn = "O"   
 
 # Closing
 run = True
@@ -91,9 +118,21 @@ wn.listen()
 wn.onkey(exit_turtle, "q")
 
 # Listen to mouseclick events
-wn.onclick(lambda x,y: [draw_o(x,y), draw_x(x,y)][turn=="X"])
-# wn.onclick(draw_o)
+def draw_char(x,y):
+    if turn == "X":
+        draw_x(x,y)
+    else:
+        draw_o(x,y)
+wn.onclick(draw_char)
 
 # Main loop
 while run:
+
+    while count < 9:
+        winner = check_winner(board)
+        if winner != "":
+            print(winner, "Won")
+            break
+        winner = check_winner(board)
+
     wn.update()

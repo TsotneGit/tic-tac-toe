@@ -12,12 +12,12 @@ win_positions = [
 winner = 0
 move = 0
 
-def print_2d(__board):
-    for i in __board:
-        print('|', end="")
-        for j in i:
-            print(j, end="|")
-        print()
+# def print_2d(__board):
+#     for i in __board:
+#         print('|', end="")
+#         for j in i:
+#             print(j, end="|")
+#         print()
 
 def check_winner(__board):
     for i in win_positions:
@@ -25,13 +25,13 @@ def check_winner(__board):
         temp = ""
         for j in i:
             if temp != "":
-                if that:=__board[(j-1)//3][(j-1)%3] != temp and that != ".":
+                if __board[(j-1)//3][(j-1)%3] != temp and __board[(j-1)//3][(j-1)%3] != ".":
                     count = 0
                     break
-                elif that != ".":
+                elif __board[(j-1)//3][(j-1)%3] != ".":
                     count += 1
             else:
-                temp = that
+                temp = __board[(j-1)//3][(j-1)%3]
                 count += 1
         if count == 3:
             return temp
@@ -43,6 +43,6 @@ def make_move(__board, _to, _who):
         __board[(_to-1)//3][(_to-1)%3] = _who
         move += 1
     else:
-        print("This cell is occupied")
+        return -1
 
             
