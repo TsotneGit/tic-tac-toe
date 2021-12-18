@@ -14,7 +14,7 @@ board = [
 ]
 
 turn = "X"
-count = 0
+moves = 0
 SPLITS = 166
 SPLITS2 = 166//2
 winner = ""
@@ -73,7 +73,7 @@ def get_id(x, y):
             return 9
 
 def draw_o(x, y):
-    global turn
+    global turn, moves
     id_ = get_id(x,y)
     # Update playingboard matrix
     if make_move(board, id_, turn) == -1:
@@ -89,9 +89,10 @@ def draw_o(x, y):
     t.circle(60)
     t.penup()
     turn = "X"
+    moves+=1
 
 def draw_x(x, y):
-    global turn
+    global turn, moves
     id_ = get_id(x,y)
 
     # Update playingboard matrix
@@ -111,7 +112,8 @@ def draw_x(x, y):
         mock.left(angle)
         mock.forward(SPLITS2)
     t.penup()
-    turn = "O"   
+    turn = "O"
+    moves += 1   
 
 # Closing
 run = True
@@ -135,14 +137,17 @@ def end_game(won):
     text_t = turtle.Turtle()
     text_t.hideturtle()
     text_t.color("white")
-    text_t.write(won+" won!", font=('Courier', 40), align="center")
+    if won != "":
+        text_t.write(won+" won!", font=('Courier', 40), align="center")
+    else:
+        text_t.write("It's a tie!", font=('Courier', 40), align="center")
     wn.update()
     time.sleep(2)
 
 # Main loop
 while run:
     winner = check_winner(board)
-    if winner != "":
+    if winner != "" or moves>=9:
         end_game(winner)
         run = False
     winner = check_winner(board)
