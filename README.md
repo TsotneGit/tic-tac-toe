@@ -1,1 +1,1 @@
-# Terminal tic tac toe in C++
+# SO MUCH TIC TAC TOE
