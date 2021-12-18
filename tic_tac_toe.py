@@ -1,6 +1,5 @@
 import time
 import turtle
-from tic_tac_toe_game import *
 
 BOARD_WITH_NUMBERS = [
     [1, 2, 3],
@@ -12,12 +11,51 @@ board = [
     ['.', '.', '.'],
     ['.', '.', '.']
 ]
+win_positions = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [1,4,7],
+    [2,5,8],
+    [3,6,9],
+    [1,5,9],
+    [3,5,7]
+]
+
+def check_winner(__board):
+    for i in win_positions:
+        count = 0
+        temp = ""
+        for j in i:
+            if temp != "":
+                if __board[(j-1)//3][(j-1)%3] != temp and __board[(j-1)//3][(j-1)%3] != ".":
+                    count = 0
+                    break
+                elif __board[(j-1)//3][(j-1)%3] != ".":
+                    count += 1
+            else:
+                temp = __board[(j-1)//3][(j-1)%3]
+                count += 1
+        if count == 3:
+            return temp
+    return ""
+
+def make_move(__board, _to, _who):
+    global move
+    if __board[(_to-1)//3][(_to-1)%3] != "X" and __board[(_to-1)//3][(_to-1)%3] != "O" and _to<=9:
+        __board[(_to-1)//3][(_to-1)%3] = _who
+        move += 1
+    else:
+        return -1
+
 
 turn = "X"
 count = 0
 SPLITS = 166
 SPLITS2 = 166//2
 winner = ""
+move = 0
+
 
 wn = turtle.Screen()
 wn.title("Tic Tac Toe")
