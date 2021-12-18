@@ -1,3 +1,4 @@
+import time
 import turtle
 from tic_tac_toe_game import *
 
@@ -73,8 +74,12 @@ def get_id(x, y):
 
 def draw_o(x, y):
     global turn
-    # Draw O
     id_ = get_id(x,y)
+    # Update playingboard matrix
+    if make_move(board, id_, turn) == -1:
+        print("The cell is taken")
+        return
+    # Draw O
     t = turtle.Turtle()
     t.hideturtle()
     t.width(10)
@@ -83,15 +88,19 @@ def draw_o(x, y):
     t.goto(-250+(((id_-1)%3+1)*2-1)*SPLITS2, 250-((id_-1)//3+1)*SPLITS+26)
     t.pendown()
     t.circle(60)
-    
-    # Update playingboard matrix
-    make_move(board, id_, turn)
-
+    t.penup()
     turn = "X"
 
 def draw_x(x, y):
     global turn
     id_ = get_id(x,y)
+
+    # Update playingboard matrix
+    if make_move(board, id_, turn) == -1:
+        print("The cell is taken")
+        return
+
+    # Draw X
     t = turtle.Turtle()
     t.hideturtle()
     t.goto(-250+(((id_-1)%3+1)*2-1)*SPLITS2, 250-((id_-1)//3+1)*SPLITS+SPLITS2)
@@ -103,10 +112,7 @@ def draw_x(x, y):
         mock = t.clone()
         mock.left(angle)
         mock.forward(SPLITS2)
-    
-    # Update playingboard matrix
-    make_move(board, id_, turn)
-    
+    t.penup()
     turn = "O"   
 
 # Closing
@@ -125,14 +131,21 @@ def draw_char(x,y):
         draw_o(x,y)
 wn.onclick(draw_char)
 
+def end_game(won):
+    wn.clear()
+    wn.bgcolor("black")
+    text_t = turtle.Turtle()
+    text_t.hideturtle()
+    text_t.color("white")
+    text_t.write(won+" won!", font=('Courier', 40), align="center")
+    wn.update()
+    time.sleep(2)
+
 # Main loop
 while run:
-
-    while count < 9:
-        winner = check_winner(board)
-        if winner != "":
-            print(winner, "Won")
-            break
-        winner = check_winner(board)
-
+    winner = check_winner(board)
+    if winner != "":
+        end_game(winner)
+        run = False
+    winner = check_winner(board)
     wn.update()
