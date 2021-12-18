@@ -77,7 +77,6 @@ def draw_o(x, y):
     id_ = get_id(x,y)
     # Update playingboard matrix
     if make_move(board, id_, turn) == -1:
-        print("The cell is taken")
         return
     # Draw O
     t = turtle.Turtle()
@@ -97,7 +96,6 @@ def draw_x(x, y):
 
     # Update playingboard matrix
     if make_move(board, id_, turn) == -1:
-        print("The cell is taken")
         return
 
     # Draw X
