@@ -21,6 +21,9 @@ def check_winner(board):
                 else:
                     last = j
                     counter += 1
+            else:
+                counter = 0
+                last = ""
 
             if counter == 4:
                 return j
