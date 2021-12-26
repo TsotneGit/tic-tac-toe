@@ -1,3 +1,3 @@
-# SO MUCH TIC TAC TOE
+# Connect four with turtle and python
 
-[Tic tac toe wikipedia page](https://en.wikipedia.org/wiki/Tic-tac-toe)
+[Connect four wikipedia page](https://en.wikipedia.org/wiki/Connect_Four)
