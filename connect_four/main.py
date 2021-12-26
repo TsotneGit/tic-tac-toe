@@ -68,6 +68,7 @@ def animation(x, y):
     moves += 1
 
 def show_winner(winner):
+    sleep(0.8)
     wn.clear()
     wn.bgcolor("black")
     text_t = turtle.Turtle()
