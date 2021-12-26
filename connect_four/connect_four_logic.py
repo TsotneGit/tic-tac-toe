@@ -1,12 +1,3 @@
-board = [
-    ["y", ".", ".", ".", ".", ".", "."],
-    ["y", ".", ".", ".", ".", ".", "."],
-    ["y", ".", ".", ".", ".", ".", "."],
-    ["y", ".", ".", ".", ".", ".", "."],
-    [".", ".", ".", ".", ".", ".", "."],
-    [".", ".", ".", ".", ".", ".", "."]
-] 
-
 def make_move(board, col):
     for n, i in enumerate(board):
         if i[col] != ".":
@@ -25,7 +16,7 @@ def check_winner(board):
                     if last == j:
                         counter += 1
                     else:
-                        counter = 0
+                        counter = 1
                         last = j
                 else:
                     last = j
@@ -33,7 +24,8 @@ def check_winner(board):
 
             if counter == 4:
                 return j
-
+    
+    # Check vertically
     for col in range(7):
         counter = 0
         last = ""
@@ -43,7 +35,7 @@ def check_winner(board):
                     if last == board[row][col]:
                         counter += 1
                     else:
-                        counter = 0
+                        counter = 1
                         last = j
                 else:
                     last = board[row][col]
@@ -52,4 +44,12 @@ def check_winner(board):
             if counter == 4:
                 return board[row][col]
 
-print(check_winner(board))
+    for row in range(3):
+        for col in range(4):
+            if board[row][col] == board[row+1][col+1] == board[row+2][col+2] == board[row+3][col+3] and board[row][col] != ".":
+                return board[row][col]
+    
+    for row in range(3):
+        for col in range(3, 7):
+            if board[row][col] == board[row+1][col-1] == board[row+2][col-2] == board[row+3][col-3] and board[row][col] != ".":
+                return board[row][col]

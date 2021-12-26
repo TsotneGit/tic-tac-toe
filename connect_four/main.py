@@ -8,6 +8,7 @@ SPLITS2 = 100//2
 SCREEN_SIZE = (700, 600)
 winner = ""
 turn = "yellow"
+moves = 0
 board = [
     [".", ".", ".", ".", ".", ".", "."],
     [".", ".", ".", ".", ".", ".", "."],
@@ -47,7 +48,7 @@ for i in range(-200, 201, SPLITS):
     line.goto(300, i)
 
 def animation(x, y):
-    global turn
+    global turn, moves
     current_y = 220
     which = 0
     id_ = get_id(x,y)
@@ -61,6 +62,20 @@ def animation(x, y):
         which+=1
     board[make_move(board, id_)][id_] = ["y", "r"][turn == "red"]
     turn = ["red", "yellow"][turn=="red"]
+    moves += 1
+
+def show_winner(winner):
+    wn.clear()
+    wn.bgcolor("black")
+    text_t = turtle.Turtle()
+    text_t.hideturtle()
+    text_t.color("white")
+    if winner != "":
+        text_t.write(["Yellow", "Red"][winner=="r"]+" won!", font=('Courier', 40), align="center")
+    else:
+        text_t.write("It's a tie!", font=('Courier', 40), align="center")
+    wn.update()
+    sleep(2)
 
 run = True
 def exit_turtle():
@@ -69,5 +84,10 @@ def exit_turtle():
 wn.listen()
 wn.onkey(exit_turtle, "q")
 wn.onclick(animation)
+
 while run:
+    winner = check_winner(board)
+    if winner == "y" or winner == "r" or moves == 42:
+        show_winner(winner)
+        break
     wn.update()
