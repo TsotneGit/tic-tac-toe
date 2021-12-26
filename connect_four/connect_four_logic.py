@@ -1,9 +1,12 @@
 def make_move(board, col):
     for n, i in enumerate(board):
-        if i[col] != ".":
+        if i[col] != "." and n <= 5:
             return n-1
         elif n == 5:
             return n
+    else:
+        return -1
+
 
 def check_winner(board):
     # Check horizontally

@@ -60,8 +60,11 @@ def animation(x, y):
             draw_circle(x, current_y, "black")
         current_y-=SPLITS
         which+=1
-    board[make_move(board, id_)][id_] = ["y", "r"][turn == "red"]
-    turn = ["red", "yellow"][turn=="red"]
+    
+    move_row = make_move(board, id_)
+    if move_row != -1:
+        board[move_row][id_] = ["y", "r"][turn == "red"]
+        turn = ["red", "yellow"][turn=="red"]
     moves += 1
 
 def show_winner(winner):
