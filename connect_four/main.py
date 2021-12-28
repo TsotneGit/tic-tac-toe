@@ -1,6 +1,7 @@
 import turtle
 from connect_four_logic import *
 from connect_four_drawing import *
+from tkinter import messagebox
 from time import sleep
 
 SPLITS = 100
@@ -8,6 +9,7 @@ SPLITS2 = 100//2
 SCREEN_SIZE = (700, 600)
 winner = 0
 turn = "yellow"
+falling = False
 moves = 0
 board = [
     [".", ".", ".", ".", ".", ".", "."],
@@ -48,24 +50,29 @@ for i in range(-200, 201, SPLITS):
     line.goto(300, i)
 
 def animation(x, y):
-    global turn, moves
+    global turn, moves, falling
     current_y = 220
     which = 0
     id_ = get_id(x,y)
-    while current_y>=-300 and board[which][id_] == ".":
-        draw_circle(x, current_y, turn)
-        if which!=5 and board[which+1][id_] == ".":
-            sleep(0.1)
-            wn.update()
-            draw_circle(x, current_y, "black")
-        current_y-=SPLITS
-        which+=1
+    if not falling:
+        falling = True
+        while current_y>=-300 and board[which][id_] == ".":
+            draw_circle(x, current_y, turn)
+            if which!=5 and board[which+1][id_] == ".":
+                sleep(0.1)
+                wn.update()
+                draw_circle(x, current_y, "black")
+            current_y-=SPLITS
+            which+=1
+        falling = False
     
-    move_row = make_move(board, id_)
-    if move_row != -1:
-        board[move_row][id_] = ["y", "r"][turn == "red"]
-        turn = ["red", "yellow"][turn=="red"]
-    moves += 1
+        move_row = make_move(board, id_)
+        if move_row != -1:
+            board[move_row][id_] = ["y", "r"][turn == "red"]
+            turn = ["red", "yellow"][turn=="red"]
+        moves += 1
+    else:
+        messagebox.showerror(title="Connect four", message="You can't make a move until it's your turn")
 
 def show_winner(winner):
     t = turtle.Turtle()
