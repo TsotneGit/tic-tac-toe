@@ -75,6 +75,7 @@ def animation(x, y):
         messagebox.showerror(title="Connect four", message="You can't make a move until it's your turn")
     
     else:
+        wn.bgcolor("black")
         messagebox.showerror(title="Connect four", message="You can't make a move after player won")
 
 def show_winner(winner):
