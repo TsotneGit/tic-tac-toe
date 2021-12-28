@@ -14,4 +14,3 @@ def get_audio():
             print(str(e))
     return said
 
-# get_audio()
