@@ -64,6 +64,8 @@ def check_winner(board):
             if counter == 4:
                 return (row, col, first_row, first_col)
 
+    # Check diagonals
+    
     for row in range(3):
         for col in range(4):
             if board[row][col] == board[row+1][col+1] == board[row+2][col+2] == board[row+3][col+3] and board[row][col] != ".":
