@@ -1,6 +1,7 @@
 import time
 import turtle
 from tic_tac_toe_game import *
+from voice_rec import get_audio
 
 BOARD_WITH_NUMBERS = [
     [1, 2, 3],
@@ -72,9 +73,9 @@ def get_id(x, y):
         else:
             return 9
 
-def draw_o(x, y):
+def draw_o(x=0, y=0, id_=1):
     global turn, moves
-    id_ = get_id(x,y)
+    # id_ = get_id(x,y)
     # Update playingboard matrix
     if make_move(board, id_, turn) == -1:
         return
@@ -91,9 +92,9 @@ def draw_o(x, y):
     turn = "X"
     moves+=1
 
-def draw_x(x, y):
+def draw_x(x=0, y=0, id_=1):
     global turn, moves
-    id_ = get_id(x,y)
+    # id_ = get_id(x,y)
 
     # Update playingboard matrix
     if make_move(board, id_, turn) == -1:
@@ -124,12 +125,12 @@ wn.listen()
 wn.onkey(exit_turtle, "q")
 
 # Listen to mouseclick events
-def draw_char(x,y):
+def draw_char(x=0, y=0, id_=1):
     if turn == "X":
-        draw_x(x,y)
+        draw_x(x,y, id_ = id_)
     else:
-        draw_o(x,y)
-wn.onclick(draw_char)
+        draw_o(x,y, id_ = id_)
+# wn.onclick(draw_char)
 
 def end_game(won):
     wn.clear()
@@ -146,9 +147,13 @@ def end_game(won):
 
 # Main loop
 while run:
+    wn.update()
+    audio = get_audio()
+    if audio.isdigit():
+        draw_char(id_=int(audio))
     winner = check_winner(board)
     if winner != "" or moves>=9:
         end_game(winner)
         run = False
     winner = check_winner(board)
-    wn.update()
+    
