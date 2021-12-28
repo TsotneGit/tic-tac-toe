@@ -1,10 +1,12 @@
 import turtle
+from connect_four_logic import *
+from connect_four_drawing import *
 from time import sleep
 
 SPLITS = 100
 SPLITS2 = 100//2
 SCREEN_SIZE = (700, 600)
-winner = ""
+winner = 0
 turn = "yellow"
 moves = 0
 board = [
@@ -35,31 +37,41 @@ def make_move(board, col):
 
 def check_winner(board):
     # Check horizontally
-    for row in board:
+    for row in range(6):
         counter = 0
         last = ""
-        for j in row:
-            if j != ".":
+        first_row = 0
+        first_col = 0
+        for col in range(7):
+            if board[row][col] != ".":
                 if last != "":
-                    if last == j:
+                    if last == board[row][col]:
                         counter += 1
                     else:
                         counter = 1
-                        last = j
+                        last = board[row][col]
+                        first_row = row
+                        first_col = col
                 else:
-                    last = j
+                    last = board[row][col]
                     counter += 1
+                    first_row = row
+                    first_col = col
             else:
                 counter = 0
                 last = ""
+                first_row = row
+                first_col = col
 
             if counter == 4:
-                return j
+                return (row, col, first_row, first_col)
     
     # Check vertically
     for col in range(7):
         counter = 0
         last = ""
+        first_row = 0
+        first_col = 0
         for row in range(6):
             if board[row][col] != ".":
                 if last != "":
@@ -67,29 +79,27 @@ def check_winner(board):
                         counter += 1
                     else:
                         counter = 1
-                        last = j
+                        last = board[row][col]
+                        first_row = row
+                        first_col = col
                 else:
                     last = board[row][col]
                     counter += 1
+                    first_row = row
+                    first_col = col
 
             if counter == 4:
-                return board[row][col]
+                return (row, col, first_row, first_col)
 
     for row in range(3):
         for col in range(4):
             if board[row][col] == board[row+1][col+1] == board[row+2][col+2] == board[row+3][col+3] and board[row][col] != ".":
-                return board[row][col]
+                return (row+3, col+3, row, col)
     
     for row in range(3):
         for col in range(3, 7):
             if board[row][col] == board[row+1][col-1] == board[row+2][col-2] == board[row+3][col-3] and board[row][col] != ".":
-                return board[row][col]
-
-import turtle 
-
-SPLITS = 100
-SPLITS2 = 100//2
-SCREEN_SIZE = (700, 600)
+                return (row+3, col-3, row, col)
 
 def get_id(x, _):
     if -350<x<-250:
@@ -167,13 +177,24 @@ def animation(x, y):
     moves += 1
 
 def show_winner(winner):
+    t = turtle.Turtle()
+    t.speed(0)
+    t.width(10)
+    t.hideturtle()
+    t.color("green")
+    t.penup()
+    t.goto(-350+winner[3]*SPLITS+SPLITS2, 300-(winner[2])*SPLITS-SPLITS2)
+    t.pendown()
+    t.goto(-350+winner[1]*SPLITS+SPLITS2, 300-(winner[0]+1)*SPLITS+SPLITS2)
+    wn.update()
+    sleep(2)
     wn.clear()
     wn.bgcolor("black")
     text_t = turtle.Turtle()
     text_t.hideturtle()
     text_t.color("white")
-    if winner != "":
-        text_t.write(["Yellow", "Red"][winner=="r"]+" won!", font=('Courier', 40), align="center")
+    if winner != 0:
+        text_t.write(["Yellow", "Red"][board[winner[0]][winner[1]]=="r"]+" won!", font=('Courier', 40), align="center")
     else:
         text_t.write("It's a tie!", font=('Courier', 40), align="center")
     wn.update()
@@ -189,7 +210,7 @@ wn.onclick(animation)
 
 while run:
     winner = check_winner(board)
-    if winner == "y" or winner == "r" or moves == 42:
+    if type(winner) == tuple or moves == 42:
         show_winner(winner)
         break
     wn.update()
