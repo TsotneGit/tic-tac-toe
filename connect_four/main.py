@@ -54,7 +54,7 @@ def animation(x, y):
     current_y = 220
     which = 0
     id_ = get_id(x,y)
-    if not falling:
+    if not falling and not winner:
         falling = True
         while current_y>=-300 and board[which][id_] == ".":
             draw_circle(x, current_y, turn)
@@ -71,7 +71,7 @@ def animation(x, y):
             board[move_row][id_] = ["y", "r"][turn == "red"]
             turn = ["red", "yellow"][turn=="red"]
         moves += 1
-    else:
+    elif not winner:
         messagebox.showerror(title="Connect four", message="You can't make a move until it's your turn")
 
 def show_winner(winner):
