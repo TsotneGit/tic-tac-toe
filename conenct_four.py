@@ -5,6 +5,7 @@ SPLITS = 100
 SPLITS2 = 100//2
 SCREEN_SIZE = (700, 600)
 winner = ""
+falling = False
 turn = "yellow"
 moves = 0
 board = [
@@ -85,8 +86,6 @@ def check_winner(board):
             if board[row][col] == board[row+1][col-1] == board[row+2][col-2] == board[row+3][col-3] and board[row][col] != ".":
                 return board[row][col]
 
-import turtle 
-
 SPLITS = 100
 SPLITS2 = 100//2
 SCREEN_SIZE = (700, 600)
@@ -123,7 +122,6 @@ def draw_circle(x, y, color):
     t.circle(30)
     t.penup()
 
-
 for i in range(-250, 251, SPLITS):
     line = turtle.Turtle()
     line.speed(0)
@@ -147,33 +145,49 @@ for i in range(-200, 201, SPLITS):
     line.goto(300, i)
 
 def animation(x, y):
-    global turn, moves
+    global turn, moves, falling
     current_y = 220
     which = 0
     id_ = get_id(x,y)
-    while current_y>=-300 and board[which][id_] == ".":
-        draw_circle(x, current_y, turn)
-        if which!=5 and board[which+1][id_] == ".":
-            sleep(0.1)
-            wn.update()
-            draw_circle(x, current_y, "black")
-        current_y-=SPLITS
-        which+=1
+    if not falling:
+        falling = True
+        while current_y>=-300 and board[which][id_] == ".":
+            draw_circle(x, current_y, turn)
+            if which!=5 and board[which+1][id_] == ".":
+                sleep(0.1)
+                wn.update()
+                draw_circle(x, current_y, "black")
+            current_y-=SPLITS
+            which+=1
+        falling = False
     
-    move_row = make_move(board, id_)
-    if move_row != -1:
-        board[move_row][id_] = ["y", "r"][turn == "red"]
-        turn = ["red", "yellow"][turn=="red"]
-    moves += 1
+        move_row = make_move(board, id_)
+        if move_row != -1:
+            board[move_row][id_] = ["y", "r"][turn == "red"]
+            turn = ["red", "yellow"][turn=="red"]
+        moves += 1
+    else:
+        messagebox.showerror(title="Connect four", message="You can't make a move until it's your turn")
 
 def show_winner(winner):
+    t = turtle.Turtle()
+    t.speed(0)
+    t.width(10)
+    t.hideturtle()
+    t.color("green")
+    t.penup()
+    t.goto(-350+winner[3]*SPLITS+SPLITS2, 300-(winner[2])*SPLITS-SPLITS2)
+    t.pendown()
+    t.goto(-350+winner[1]*SPLITS+SPLITS2, 300-(winner[0]+1)*SPLITS+SPLITS2)
+    wn.update()
+    sleep(2)
     wn.clear()
     wn.bgcolor("black")
     text_t = turtle.Turtle()
     text_t.hideturtle()
     text_t.color("white")
-    if winner != "":
-        text_t.write(["Yellow", "Red"][winner=="r"]+" won!", font=('Courier', 40), align="center")
+    if winner != 0:
+        text_t.write(["Yellow", "Red"][board[winner[0]][winner[1]]=="r"]+" won!", font=('Courier', 40), align="center")
     else:
         text_t.write("It's a tie!", font=('Courier', 40), align="center")
     wn.update()
@@ -189,7 +203,7 @@ wn.onclick(animation)
 
 while run:
     winner = check_winner(board)
-    if winner == "y" or winner == "r" or moves == 42:
+    if type(winner) == tuple or moves == 42:
         show_winner(winner)
         break
     wn.update()
