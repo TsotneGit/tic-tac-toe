@@ -1,6 +1,4 @@
 import turtle
-from connect_four_logic import *
-from connect_four_drawing import *
 from time import sleep
 
 SPLITS = 100
