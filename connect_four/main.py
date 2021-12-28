@@ -85,7 +85,7 @@ def show_winner(winner):
     t.pendown()
     t.goto(-350+winner[1]*SPLITS+SPLITS2, 300-(winner[0]+1)*SPLITS+SPLITS2)
     wn.update()
-    sleep(2)
+    sleep(1)
     wn.clear()
     wn.bgcolor("black")
     text_t = turtle.Turtle()
