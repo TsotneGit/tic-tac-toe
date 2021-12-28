@@ -1,4 +1,4 @@
-import pyaudio
+# import pyaudio
 import speech_recognition as sr
 
 def get_audio():
