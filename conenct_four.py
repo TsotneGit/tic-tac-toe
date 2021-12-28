@@ -1,5 +1,6 @@
 import turtle
 from time import sleep
+from tkinter import messagebox
 
 SPLITS = 100
 SPLITS2 = 100//2
