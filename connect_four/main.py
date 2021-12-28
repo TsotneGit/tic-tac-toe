@@ -73,6 +73,9 @@ def animation(x, y):
         moves += 1
     elif not winner:
         messagebox.showerror(title="Connect four", message="You can't make a move until it's your turn")
+    
+    else:
+        messagebox.showerror(title="Connect four", message="You can't make a move after player won")
 
 def show_winner(winner):
     t = turtle.Turtle()
