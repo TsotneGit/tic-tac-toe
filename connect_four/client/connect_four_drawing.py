@@ -1,28 +1,30 @@
-import turtle 
+import turtle
 
 SPLITS = 100
-SPLITS2 = 100//2
+SPLITS2 = 100 // 2
 SCREEN_SIZE = (700, 600)
 
+
 def get_id(x, _):
-    if -350<x<-250:
+    if -350 < x < -250:
         return 0
-    elif -250<=x<=-150:
+    elif -250 <= x <= -150:
         return 1
-    elif -150<x<=-50:
+    elif -150 < x <= -50:
         return 2
-    elif -50<x<=50:
+    elif -50 < x <= 50:
         return 3
-    elif 50<x<=150:
+    elif 50 < x <= 150:
         return 4
-    elif 150<x<=250:
+    elif 150 < x <= 250:
         return 5
-    elif 250<x<=350:
+    elif 250 < x <= 350:
         return 6
+
 
 def draw_circle(x, y, color):
     global turn
-    id_ = get_id(x,y)
+    id_ = get_id(x, y)
     # Update playingboard matrix
     # if make_move(board, id_, turn) == -1:
     #     return
@@ -31,7 +33,7 @@ def draw_circle(x, y, color):
     t.width(10)
     t.color(color)
     t.penup()
-    t.goto(-350+((id_+1)*2-1)*SPLITS2, y)
+    t.goto(-350 + ((id_ + 1) * 2 - 1) * SPLITS2, y)
     t.pendown()
     t.circle(30)
     t.penup()
